@@ -1,0 +1,930 @@
+Tasks
+Task #1
+There is a new functionality in IntelliJ IDEA — Command Completion. Command Completion helps you write and transform code by suggesting context-aware IDE actions in the editor. For now, it is implemented for Java and Kotlin. The task is:
+
+Install the latest version of IntelliJ IDEA (Command Completion is available in free mode)
+
+Perform exploratory testing of Command Completion in Java
+
+Document the testing results (test cases, bugs)
+
+Note: this functionality has an extensive testing scope. We do not expect you to find every corner case. We expect a proper test of the common mechanisms for Command Completion and a possible direction for deeper testing. We want to evaluate your ability to learn new functionality, understand the scope of testing, and create test documentation.
+
+Answer
+## Test Environment
+
+- IDE: IntelliJ IDEA 2026.1.1
+
+- Mode: Free mode
+
+- Language tested: Java
+
+- Project type: Simple Java project
+
+- Operating system: Windows
+
+- Feature tested: Command Completion
+
+- Main invocation method: typing .. in the Java editor
+
+- Secondary invocation method: typing . and checking whether command suggestions appear
+
+together with regular completion
+
+## Scope of Testing
+
+Tested areas:
+
+1. Basic Command Completion invocation
+
+2. Behavior inside a Java class
+
+3. Behavior inside a Java method
+
+4. Code generation actions
+
+5. Refactoring actions
+
+6. Quick-fix suggestions
+
+7. Code transformation suggestions
+
+8. Suggestions around loops and if statements
+
+9. Behavior with incomplete or invalid code
+
+10. Negative tests where suggestions should not appear or should not perform an action
+
+11. Corner cases
+
+12. Possible areas for deeper testing
+
+## Test Cases
+
+# Test Case 1: Invoke Command Completion inside an empty Java class
+
+Precondition:
+
+A Java project is open and a Java class is created.
+
+Steps:
+
+1. Open a Java class.
+
+2. Place the cursor inside the class body.
+
+3. Type ...
+
+Example:
+
+public class User {
+
+..
+
+}
+
+Expected Result:
+
+Command Completion popup should appear with actions relevant to the class context.
+
+Actual Result:
+
+Command Completion popup appeared and displayed class-level actions.
+
+Status: Passed
+
+# Test Case 2: Invoke Command Completion inside a Java method
+
+Steps:
+
+1. Create a Java method.
+
+2. Place the cursor inside the method body.
+
+3. Type ..
+
+Example:
+
+public void test() {
+
+..
+
+}
+
+Expected Result:
+
+Command Completion should display actions relevant to method body context.
+
+Actual Result:
+
+Suggestions were shown and were more relevant than in an empty class body.
+
+Status: Passed
+
+# Test Case 3: Command Completion with one dot together with regular completion
+
+Steps:
+
+1. Create an object variable.
+
+2. Type one dot after the variable name.
+
+3. Check whether regular completion and command completion suggestions appear.
+
+Example:
+
+String name = "John";
+
+name.
+
+Expected Result:
+
+Regular completion should show methods such as length(), toLowerCase(), substring(), etc.
+
+Command Completion actions may also appear in a separate group.
+
+Actual Result:
+
+Regular completion appeared, and Command Completion actions were distinguishable from normal
+
+code suggestions.
+
+Status: Passed
+
+# Test Case 4: Generate constructor through Command Completion
+
+Steps:
+
+1. Create a class with private fields.
+
+2. Place the cursor inside the class.
+
+3. Type ..
+
+4. Search for constructor generation.
+
+5. Select the suggested action.
+
+Example:
+
+public class User {
+
+private String name;
+
+private int age;
+
+}
+
+Expected Result:
+
+Command Completion should offer constructor generation.
+
+Actual Result:
+
+Constructor generation was available and generated a constructor correctly.
+
+Status: Passed
+
+# Test Case 5: Generate getters and setters
+
+Steps:
+
+1. Create a class with private fields.
+
+2. Place the cursor inside the class.
+
+3. Type ...
+
+4. Search for getters and setters.
+
+5. Apply the action.
+
+Expected Result:
+
+Getters and setters should be generated for selected fields.
+
+Actual Result:
+
+The action was available and worked as expected.
+
+Status: Passed
+
+# Test Case 6: Generate toString() method
+
+Steps:
+
+1. Create a class with fields.
+
+2. Type .. inside the class.
+
+3. Search for toString.
+
+4. Apply the action.
+
+Expected Result:
+
+The IDE should generate a valid toString() method.
+
+Actual Result:
+
+The action was available and generated a valid method.
+
+Status: Passed
+
+# Test Case 7: Quick-fix for missing import
+
+Steps:
+
+1. Use a class without importing it.
+
+2. Place the cursor near the unresolved symbol.
+
+3. Type ...
+
+Example:
+
+public class Test {
+
+private List names;
+
+}
+
+Expected Result:
+
+Command Completion should suggest importing java.util.List.
+
+Actual Result:
+
+A quick-fix suggestion for importing the missing class was available.
+
+Status: Passed
+
+# Test Case 8: Rename refactoring through Command Completion
+
+Steps:
+
+1. Create a variable.
+
+2. Place the cursor on the variable name.
+
+3. Type ..
+
+4. Search for Rename.
+
+5. Apply the action.
+
+Example:
+
+int counter = 0;
+
+System.out.println(counter);
+
+Expected Result:
+
+Rename refactoring should be available and should rename all valid usages.
+
+Actual Result:
+
+Rename action was available and worked correctly.
+
+Status: Passed
+
+# Test Case 9: Extract method from an if block
+
+Steps:
+
+1. Create a method with an if statement.
+
+2. Select or place the cursor near the if block.
+
+3. Type ...
+
+4. Search for extract method or related transformation.
+
+Example:
+
+public void checkAge(int age) {
+
+if (age >= 18) {
+
+System.out.println("Adult");
+
+}
+
+}
+
+Expected Result:
+
+Command Completion should suggest high-level transformations such as extracting code into a
+
+method when applicable.
+
+Actual Result:
+
+Relevant transformation actions were available.
+
+Status: Passed
+
+# Test Case 10: Extract method from a loop
+
+Steps:
+
+1. Create a method with a loop.
+
+2. Place the cursor near or inside the loop.
+
+3. Type ..
+
+Example:
+
+public void printNames(List names) {
+
+for (String name : names) {
+
+System.out.println(name);
+
+}
+
+}
+
+Expected Result:
+
+The IDE should suggest context-aware actions related to the loop, such as extraction or
+
+transformation actions.
+
+Actual Result:
+
+Relevant suggestions were shown.
+
+Status: Passed
+
+# Test Case 11: Reformat code through Command Completion
+
+Steps:
+
+1. Create badly formatted Java code.
+
+2. Type ..
+
+3. Search for reformat code.
+
+4. Apply the action.
+
+Example:
+
+public class Test{public void run(){System.out.println("Hello");}}
+
+Expected Result:
+
+The IDE should offer a reformatting action and format the code according to the project style.
+
+Actual Result:
+
+Reformatting action was available and worked correctly.
+
+Status: Passed
+
+# Test Case 12: Optimize imports through Command Completion
+
+Steps:
+
+1. Add unused imports to a Java file.
+
+2. Type ..
+
+3. Search for optimize imports.
+
+4. Apply the action.
+
+Expected Result:
+
+Unused imports should be removed.
+
+Actual Result:
+
+Optimize imports action was available and worked correctly.
+
+Status: Passed
+
+# Test Case 13: Command Completion ranking stability
+
+Precondition:
+
+Project contains multiple classes, methods, and imports.
+
+Steps:
+
+1. Create a complex method with loops, conditions, and variables.
+
+2. Place the cursor inside the deepest nested block.
+
+3. Type ...
+
+4. Observe ranking of suggested actions.
+
+5. Move the cursor slightly within the same logical scope.
+
+6. Type .. again and compare suggestions.
+
+Expected Result:
+
+Top suggestions should remain relevant and stable within the same logical scope.
+
+Actual Result:
+
+Suggestions change depending on caret position, and top-ranked actions are not always the most
+
+relevant.
+
+Status: Failed
+
+Severity: Major
+
+Priority: High
+
+## Negative Test Cases
+
+# Negative Test Case 1: Command Completion should not insert code automatically
+
+Steps:
+
+1. Open a Java class.
+
+2. Type ..
+
+3. Do not select any suggestion.
+
+4. Press Escape.
+
+Expected Result:
+
+No command should be executed and no code should be inserted automatically.
+
+Actual Result:
+
+No unwanted change was made.
+
+Status: Passed
+
+# Negative Test Case 2: Command Completion should not replace regular completion
+
+completely
+
+Steps:
+
+1. Create a String variable.
+
+2. Type one dot after the variable name.
+
+Example:
+
+String text = "hello";
+
+text.
+
+Expected Result:
+
+Regular Java method suggestions should still appear. Command Completion should not remove or
+
+block normal code completion.
+
+Actual Result:
+
+Regular completion was still available.
+
+Status: Passed
+
+# Negative Test Case 3: Invalid action should not be available in wrong context
+
+Steps:
+
+1. Place the cursor inside a method body where class-level generation is not applicable.
+
+2. Type ..
+
+3. Search for actions such as generating constructor.
+
+Expected Result:
+
+Class-level actions should not be shown if they are not valid in the current context, or they should
+
+be disabled/not applicable.
+
+Actual Result:
+
+The suggestions were mostly context-aware and did not apply invalid actions.
+
+Status: Passed with observation
+
+# Negative Test Case 4: Command Completion disabled in settings
+
+Steps:
+
+1. Go to Settings → Editor → General → Code Completion.
+
+2. Disable Command Completion.
+
+3. Return to Java editor.
+
+4. Type ..
+
+Expected Result:
+
+Command Completion should not appear when the feature is disabled.
+
+Actual Result:
+
+Command Completion did not appear after disabling the feature.
+
+Status: Passed
+
+# Negative Test Case 5: Read-only files should not be modified
+
+Steps:
+
+1. Open a read-only library source file.
+
+2. Place the cursor on a symbol.
+
+3. Type . or use Command Completion if enabled for read-only files.
+
+4. Try to invoke a modifying action.
+
+Expected Result:
+
+The IDE should not modify read-only code. Only safe actions such as navigation, search usages or
+
+copy reference should be available.
+
+Actual Result:
+
+Read-only code was not modified.
+
+Status: Passed
+
+# Negative Test Case 6: Command Completion should not execute an
+
+action only by typingsearch text
+
+Steps:
+
+1. Type ..
+
+2. Start typing the name of an action.
+
+3. Do not press Enter.
+
+Expected Result:
+
+The IDE should only filter suggestions. It should not execute the action
+
+until the user confirms it.
+
+Actual Result:
+
+Typing only filtered suggestions and did not execute an action.
+
+Status: Passed
+
+## Corner Cases
+
+# Corner Case 1: Almost empty Java file
+
+Steps:
+
+1. Create an almost empty Java file.
+
+2. Type ..
+
+Example:
+
+class A {
+
+}
+
+Expected Result:
+
+Only generic or safe suggestions should be shown because there is very little context.
+
+Actual Result:
+
+Suggestions were limited and generic.
+
+Status: Passed with observation
+
+# Corner Case 2: Incomplete Java statement
+
+Steps:
+
+1. Write incomplete Java code.
+
+2. Type ..
+
+Example:
+
+public void test() {
+
+String value =
+
+..
+
+}
+
+Expected Result:
+
+The IDE should not crash. Suggestions should either help fix the code or remain limited.
+
+Actual Result:
+
+The IDE did not crash, but some suggestions were less useful.
+
+Status: Passed with observation
+
+# Corner Case 3: Syntax error before caret position
+
+Steps:
+
+1. Create code with a syntax error before the caret.
+
+2. Type ..
+
+Example:
+
+public void test() {
+
+if (true {
+
+System.out.println("Error");
+
+}
+
+..
+
+}
+
+Expected Result:
+
+The feature should remain stable and should not apply unsafe transformations.
+
+Actual Result:
+
+The feature remained stable, but suggestions were less accurate.
+
+Status: Passed with observation
+
+# Corner Case 4: Very long method
+
+Steps:
+
+1. Create a method with many lines of code.
+
+2. Place the cursor near the middle or end of the method.
+
+3. Type ..
+
+Expected Result:
+
+Command Completion should still appear without noticeable delay and provide context-related
+
+actions.
+
+Actual Result:
+
+The popup appeared, but this area should be tested more deeply with larger real-world files.
+
+Status: Passed with observation
+
+# Corner Case 5: Nested if statements and loops
+
+Steps:
+
+1. Create nested control-flow structures.
+
+2. Place the cursor inside the inner block.
+
+3. Type ..
+
+Example:
+
+public void process(List names) {
+
+for (String name : names) {
+
+if (name.length() > 3) {
+
+System.out.println(name);
+
+}
+
+}
+
+}
+
+Expected Result:
+
+Suggestions should be related to the innermost valid context and should not suggest
+
+transformations that would break code structure.
+
+Actual Result:
+
+Suggestions were context-aware, but nested structures should be included in deeper testing.
+
+Status: Passed with observation
+
+## Bugs / Issues Found
+
+#Bug 1: Suggestions can be too generic in low-context areas
+
+Severity: Minor
+
+Steps to reproduce:
+
+1. Open an almost empty Java class.
+
+2. Place the cursor inside the class body.
+
+3. Type ..
+
+Expected Result:
+
+Only highly relevant actions should be shown.
+
+Actual Result:
+
+Some suggestions were generic and not clearly useful for the current context.
+
+Impact:
+
+This can reduce usability for new users because they may not understand which action is useful.
+
+#Bug 2: Suggestions are less useful with incomplete code
+
+Severity: Minor / Medium
+
+Steps to reproduce:
+
+1. Create incomplete Java code.
+
+2. Type .. near the incomplete statement.
+
+Example:
+
+public void test() {
+
+String value =
+
+..
+
+}
+
+Expected Result:
+
+Suggestions should prioritize actions that help complete or fix the broken code.
+
+Actual Result:
+
+Some suggestions were not directly useful for fixing the incomplete statement.
+
+Impact:
+
+The feature is less effective while the developer is actively typing unfinished code.
+
+#Bug 3: Discoverability of the .. trigger
+
+Severity: Minor
+
+Steps to reproduce:
+
+1. Use IntelliJ IDEA without reading the documentation.
+
+2. Try to discover Command Completion naturally.
+
+Expected Result:
+
+The feature should be easy to discover or introduced clearly to the user.
+
+Actual Result:
+
+Without documentation or demo, it is not obvious that typing .. opens Command Completion.
+
+Impact:
+
+Users may not use the feature even though it is enabled by default.
+
+#Bug 4: Command Completion suggestions are unstable depending on caret position
+
+Reproducible via Test Case 13
+
+Severity: Major
+
+Steps to reproduce:
+
+1. Create a Java class with fields and methods.
+
+2. Type .. in different nearby positions.
+
+3. Compare suggestions.
+
+Expected Result:
+
+Small caret position changes should not cause confusing differences unless the context really
+
+changes.
+
+Actual Result:
+
+Some suggestions changed noticeably depending on caret position.
+
+Impact:
+
+The user may need to understand exactly where to place the cursor to get the desired command.
+
+## General Observations
+
+Command Completion is most useful when the editor has enough context. It works better inside
+
+existing classes, methods, loops, if statements or near valid Java symbols.
+
+The feature is useful because it reduces the need to remember many IntelliJ IDEA shortcuts.
+
+Instead of remembering shortcuts for actions such as Generate, Rename, Optimize Imports,
+
+Reformat Code or Extract Method, the user can type .. and search for the desired action directly in
+
+the editor.
+
+The feature also helps with discoverability of IDE actions because it exposes relevant actions in the
+
+place where the developer is already working: the code editor.
+
+Suggestions ranking may vary even within the same logical scope, which can impact usability and
+
+predictability.
+
+However, the quality of suggestions depends on the current context. When the code is incomplete,
+
+invalid or too empty, suggestions become more generic and less useful.
+
+## Possible Direction for Deeper Testing
+
+Because Command Completion has an extensive testing scope, deeper testing should include:
+
+Large Java projects with many packages and modules
+
+Spring Boot projects and framework-specific suggestions
+
+Maven/Gradle projects
+
+Performance testing in large files
+
+Comparison between Java and Kotlin behavior
+
+Testing different code styles and inspection settings
+
+Testing keyboard-only workflow
+
+Testing accessibility behavior
+
+Testing Command Completion in read-only library files
+
+Testing with multiple opened projects
+
+Testing with generated code
+
+Testing with broken project configuration
+
+Testing interaction with existing IntelliJ features such as inspections, quick-fixes, refactorings and
+
+live templates
+
+Testing whether preview always matches the final applied change
+
+Testing undo behavior after applying a command
+
+## Conclusion
+
+Command Completion is a useful IntelliJ IDEA feature that extends normal code completion by
+
+suggesting IDE actions directly in the editor. It provides a universal entry point for common actions
+
+such as quick-fixes, refactorings, navigation, code generation and transformations.
+
+The feature worked well in common Java scenarios such as class editing, method editing,
+
+generating constructors, generating getters and setters, renaming symbols, optimizing imports,
+
+reformatting code and working around loops and if statements.
+
+The main weaknesses found during exploratory testing were related to low-context situations,
+
+incomplete code, discoverability of the .. trigger and sensitivity to caret position.
+
+One of the key issues identified is instability in suggestion ranking depending on caret position,
+
+even within the same logical scope.
+
+Overall, Command Completion improves productivity and makes IDE actions easier to discover, but
+
+it should be tested further in larger projects, framework-based projects and complex Java code.
